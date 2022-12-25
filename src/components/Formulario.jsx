@@ -24,10 +24,12 @@ const Formulario = ({ patients, setPatients, patient, setPatient }) => {
 
   /* PARA VALIDAR SI EXISTE UN ERROR */
   const [error, setError] = useState(false);
+  const [currentDay, setCurrentDay] = useState('')
 
   
   /* PACIENTE PARA ACTUALIZAR */ 
   useEffect(() => {
+    const inputDate = document.querySelector('#alta');     
     if( Object.keys(patient).length > 0 ){
       const { name, owner, email, date, symptoms } = patient;
       
@@ -37,8 +39,12 @@ const Formulario = ({ patients, setPatients, patient, setPatient }) => {
       setDate(date);
       setSymptoms(symptoms);
       
-      const inputDate = document.querySelector('#alta');     
-      patient.id ? inputDate.setAttribute('min', date) : inputDate.setAttribute('min', minDay());
+      patient.id && inputDate.setAttribute('min', date);
+    } else {
+      console.log('Formulario limpio')
+      console.log(minDay())
+      setCurrentDay(minDay());
+      inputDate.setAttribute('min', currentDay);
     }
 
   }, [patient])
@@ -167,7 +173,7 @@ const Formulario = ({ patients, setPatients, patient, setPatient }) => {
           <input
             id="alta" 
             type='date'
-            min={minDay()}
+            min={currentDay}
             className="border-2 w-full p-2 mt-2 rounded-md"
             value={ date }
             onChange={ e => setDate(e.target.value) }
