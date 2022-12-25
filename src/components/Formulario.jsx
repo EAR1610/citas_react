@@ -7,6 +7,7 @@
  */
 
 import { useState, useEffect } from 'react';
+import Alerta from './Alerta';
 import Error from './Error';
 
 
@@ -53,16 +54,6 @@ const Formulario = ({ patients, setPatients, patient, setPatient }) => {
     setSymptoms('');
   }
 
-  const showMessageSuccess = message => { 
-    Swal.fire({
-      position: 'center',
-      icon: 'success',
-      title: `La cita se ha ${ message } correctamente`,
-      showConfirmButton: true,
-      timer: 1500
-    })
-  }
-
   const handleSubmit = ( e ) => {
     e.preventDefault();
     
@@ -98,14 +89,14 @@ const Formulario = ({ patients, setPatients, patient, setPatient }) => {
       setPatients(updatedPatients);
       setPatient({});
 
-      showMessageSuccess('actualizado');
+      Alerta('success', 'La cita se ha actualizado correctamente');
       
     } else {
       //Nuevo Registro
       newPatient.id = generateId();
       setPatients([ ...patients, newPatient ])
 
-      showMessageSuccess('registrado');
+      Alerta('success', 'La cita se ha registrado correctamente');
     }
 
     //Reiniciar el objeto
