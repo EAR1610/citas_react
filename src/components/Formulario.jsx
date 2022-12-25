@@ -14,7 +14,7 @@ import Error from './Error';
 const Formulario = ({ patients, setPatients, patient, setPatient }) => {
 
   /* REGRESE LA FECHA ACTUAL EN FORMATO YYYY/MM/DD */
-  const minDay = new Date().toISOString().slice(0, 10);
+  const minDay = () => new Date().toISOString().slice(0, 10);
 
   const [name, setName] = useState(''); 
   const [owner, setOwner] = useState(''); 
@@ -25,17 +25,22 @@ const Formulario = ({ patients, setPatients, patient, setPatient }) => {
   /* PARA VALIDAR SI EXISTE UN ERROR */
   const [error, setError] = useState(false);
 
+  
   /* PACIENTE PARA ACTUALIZAR */ 
   useEffect(() => {
     if( Object.keys(patient).length > 0 ){
       const { name, owner, email, date, symptoms } = patient;
-
+      
       setName(name);
       setOwner(owner);
       setEmail(email);
       setDate(date);
       setSymptoms(symptoms);
+      
+      const inputDate = document.querySelector('#alta');     
+      patient.id ? inputDate.setAttribute('min', date) : inputDate.setAttribute('min', minDay());
     }
+
   }, [patient])
   
 
@@ -82,9 +87,6 @@ const Formulario = ({ patients, setPatients, patient, setPatient }) => {
           ? newPatient 
           : patientState
         );
-
-      const inputDate = document.querySelector('.alta');
-      inputDate.disabled = true;
 
       setPatients(updatedPatients);
       setPatient({});
@@ -165,8 +167,8 @@ const Formulario = ({ patients, setPatients, patient, setPatient }) => {
           <input
             id="alta" 
             type='date'
-            min={minDay}
-            className="alta border-2 w-full p-2 mt-2 rounded-md"
+            min={minDay()}
+            className="border-2 w-full p-2 mt-2 rounded-md"
             value={ date }
             onChange={ e => setDate(e.target.value) }
           />
