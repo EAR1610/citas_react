@@ -7,6 +7,8 @@ const Paciente = ({ patient, setPatient, deletePatient }) => {
 
   const { name, owner, email, date, symptoms, id } = patient;
 
+  console.log(patient.name)
+  
   const handleDelete = () => {
     Swal.fire({
       title: 'Estas seguro?',
